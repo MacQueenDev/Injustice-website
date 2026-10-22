@@ -3,28 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="content-width=device-width, initial-scale=1.0">
-    <title>Combat - Guia Injustice Mobile</title>
+    <title>Combate - Injustice Mobile</title>
+    <link href="assets/css/tailwind.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <header>
-        <h1>Combate: Guia de Estratégias</h1>
-        <p>Aprenda como vencer nas batalhas de 3 contra 3</p>
+<body class="bg-ink-950 text-text-main">
+    <header class="app-header">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <div class="logo">
+                        <div class="logo-icon">INJUSTICE</div>
+                        <div class="logo-text">MOBILE</div>
+                    </div>
+                </div>
+                <div class="user-info">
+                    <div class="stat">
+                        <span class="stat-icon">💎</span>
+                        <div class="stat-value">0</div>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-icon">🔴</span>
+                        <div class="stat-value">0</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-icon">🪙</div>
+                        <div class="stat-value">588,233</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </header>
-    <nav>
-        <ul>
-            <li><a href="index.html">Início</a></li>
-            <li><a href="characters.html">Personagens</a></li>
-            <li><a href="combat.html">Combate</a></li>
-            <li><a href="progression.html">Progressão</a></li>
-            <li><a href="modes.html">Modos de Jogo</a></li>
-            <li><a href="tips.html">Dicas e Estratégias</a></li>
-            <li><a href="conclusion.html">Conclusão</a></li>
-        </ul>
-    </nav>
-    <main>
+
+    <main class="container mx-auto px-4 py-6">
+        <nav>
+            <ul class="flex flex-wrap gap-2 text-center justify-center mb-8">
+                <li><a href="index.html" class="hover:text-brand-light transition-colors">Início</a></li>
+                <li><a href="characters.html" class="hover:text-brand-light transition-colors">Personagens</a></li>
+                <li><a href="combat.html" class="text-brand-light font-medium">Combate</a></li>
+                <li><a href="progression.html" class="hover:text-brand-light transition-colors">Progressão</a></li>
+                <li><a href="modes.html" class="hover:text-brand-light transition-colors">Modos de Jogo</a></li>
+                <li><a href="tips.html" class="hover:text-brand-light transition-colors">Dicas e Estratégias</a></li>
+                <li><a href="conclusion.html" class="hover:text-brand-light transition-colors">Conclusão</a></li>
+            </ul>
+        </nav>
         <section class="hero">
-            <h2>Táticas e Combate Avançado</h2>
+            <h2 class="text-glow text-2xl font-bold mb-4 text-center">Táticas e Combate Avançado</h2>
             <p>Injustice: Gods Among Us Mobile tem combate em tempo real e 3 contra 3, o que significa que posicionamento, timing e equipe são essenciais.</p>
 
             <h3>Princípios Básicos de Combate</h3>
@@ -96,8 +120,14 @@
             </ul>
         </section>
     </main>
-    <footer>
-        <p>&copy; 2026 Guia Injustice Mobile. Todos os direitos reservados.</p>
+    <footer class="app-footer">
+        <div class="container mx-auto px-4 py-6">
+            <p class="text-center text-ink-300">
+                © 2026 Guia Injustice Mobile • Todos os direitos reservados •
+                <a href="#" class="text-ink-300 hover:text-glow">Termos de Uso</a> •
+                <a href="#" class="text-ink-300 hover:text-glow">Política de Privacidade</a>
+            </p>
+        </div>
     </footer>
 </body>
 </html>

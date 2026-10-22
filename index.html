@@ -1,44 +1,160 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guia Completo: Injustice: Gods Among Us Mobile</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Injustice Mobile - Guia Oficial</title>
+    <link href="assets/css/tailwind.css" rel="stylesheet">
+    <link href="assets/css/tailwind.css" rel="stylesheet">
 </head>
-<body>
-    <header>
-        <h1>Injustice: Gods Among Us Mobile</h1>
-        <p>Guia definitivo com dicas, tier list, personagens e tudo sobre o jogo</p>
+<body class="bg-gradient-to-r from-ink-950 to-ink-990 text-ink-100">
+    <header class="app-header">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <div class="logo">
+                        <div class="logo-icon">INJUSTICE</div>
+                        <div class="logo-text">MOBILE</div>
+                    </div>
+                </div>
+                <div class="user-info">
+                    <div class="stat">
+                        <span class="stat-icon">💎</span>
+                        <div class="stat-value">0</div>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-icon">🔴</span>
+                        <div class="stat-value">0</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-icon">🪙</div>
+                        <div class="stat-value">588,233</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </header>
-    <nav>
-        <ul>
-            <li><a href="index.html">Início</a></li>
-            <li><a href="characters.html">Personagens</a></li>
-            <li><a href="combat.html">Combate</a></li>
-            <li><a href="progression.html">Progressão</a></li>
-            <li><a href="modes.html">Modos de Jogo</a></li>
-            <li><a href="tips.html">Dicas e Estratégias</a></li>
-            <li><a href="conclusion.html">Conclusão</a></li>
-        </ul>
-    </nav>
-    <main>
-        <section class="hero">
-            <h2>Bem-vindo ao Guia Definitivo</h2>
-            <p>Este site é um guia completo para o jogo <strong>Injustice: Gods Among Us Mobile</strong>, lançado em 2013 pela NetherRealm Studios. Embora o jogo tenha sido descontinuado, ele ainda é lembrado por sua mecânica única de luta em 3v3 e coleção de heróis e vilões da DC.</p>
-            <p>Neste guia, você encontrará:</p>
-            <ul>
-                <li>Lista completa de personagens com habilidades e estatísticas</li>
-                <li>Tier list atualizada (baseada na meta do jogo quando estava ativo)</li>
-                <li>Guias de combate para iniciantes e avançados</li>
-                <li>Dicas para evoluir sua equipe e farmar recursos</li>
-                <li>Explicação dos modos de jogo e eventos</li>
-            </ul>
-            <p>Seja você um jogador nostálgico ou alguém descobrindo o jogo agora, este guia tem tudo o que você precisa!</p>
-        </section>
+
+    <main class="container mx-auto px-4 py-6">
+        <h1 class="text-3xl font-bold text-center mb-4 text-glow">Injustice Mobile</h1>
+        <p class="text-center text-base text-ink-300 mb-8">
+            Explore o mundo de Injustice Mobile com nosso guia completo. Acesse todas as seções para descobrir personagens, gears, recompensas e modos de jogo.
+        </p>
+
+        <div class="menu-grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            <!-- Characters -->
+            <a href="characters.html" class="menu-card hover:shadow-xl transition-all duration-500">
+                <div class="card-bg">
+                    <img src="assets/img/characters/placeholder.jpg" alt="Personagens" class="card-img">
+                    <div class="card-content">
+                        <h3 class="text-xl font-bold">Personagens</h3>
+                        <p class="text-sm text-ink-300">Todos os heróis e vilões jogáveis</span>
+                    </div>
+                </a>
+
+                <!-- Gears -->
+                <a href="#" class="menu-card">
+                    <div class="card-front">
+                        <div class="card-icon">⚔️</div>
+                        <h3 class="text-xl font-bold">Gears</h3>
+                        <span class="card-count">Equipamentos e poderes</span>
+                    </div>
+                </a>
+
+                <!-- Multiplayer -->
+                <a href="#" class="menu-card">
+                    <div class="card-front">
+                        <div class="card-icon">🌐</div>
+                        <h3 class="text-xl font-bold">Multiplayer</h3>
+                        <span class="card-count">Recompensas e ranking</span>
+                    </div>
+                </a>
+
+                <!-- Phantom Zone -->
+                <a href="#" class="menu-card">
+                    <div class="card-front">
+                        <div class="card-icon">🌀</div>
+                        <h3 class="text-xl font-bold">Phantom Zone</h3>
+                        <span class="card-count">Desafios e recompensas</span>
+                    </div>
+                </a>
+
+                <!-- Seasonal -->
+                <a href="#" class="menu-card">
+                    <div class="card-front">
+                        <div class="card-icon">📅</div>
+                        <h3 class="text-xl font-bold">Sazonal</h3>
+                        <span class="card-count">Eventos e conteúdos temporários</span>
+                    </div>
+                </a>
+
+                <!-- Survivor -->
+                <a href="#" class="menu-card">
+                    <div class="card-front">
+                        <div class="card-icon">💀</div>
+                        <h3 class="text-xl font-bold">Survivor</h3>
+                        <span class="card-count">Modo desafiador</span>
+                    </div>
+                </a>
+
+                <!-- Play -->
+                <a href="#" class="menu-card">
+                    <div class="card-front">
+                        <div class="card-icon">▶️</div>
+                        <h3 class="text-xl font-bold">Jogar</h3>
+                        <span class="card-count">Inicie sua jornada</span>
+                    </div>
+                </a>
+
+                <!-- Collection -->
+                <a href="#" class="menu-card">
+                    <div class="card-front">
+                        <div class="card-icon">📋</div>
+                        <h3 class="text-xl font-bold">Coleção</h3>
+                        <span class="card-count">Colecione todos os personagens</span>
+                    </div>
+                </a>
+
+                <!-- Store -->
+                <a href="#" class="menu-card">
+                    <div class="card-front">
+                        <div class="card-icon">🛒</div>
+                        <h3 class="text-xl font-bold">Store</h3>
+                        <span class="card-count">Compre e desbloqueie</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-section mt-12">
+            <div class="container mx-auto">
+                <div class="hero-content">
+                    <div class="hero-image">
+                        <img src="assets/img/characters/aquaman-prime.webp" alt="Aquaman" class="w-full max-w-3xl mx-auto rounded-xl shadow-xl">
+                    </div>
+                    <div class="hero-text">
+                        <h2 class="text-4xl font-extrabold text-center text-glow mb-6">Injustice Mobile</h2>
+                        <p class="text-2xl text-center text-ink-300 mb-8">
+                            Coleção épica de personagens, gears poderosos e eventos sazonais.
+                        </p>
+                        <div class="hero-actions">
+                            <button class="btn-primary">Começar Jogo</button>
+                            <button class="btn-ghost ml-4">Assistir Trailer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
-    <footer>
-        <p>&copy; 2026 Guia Injustice Mobile. Todos os direitos reservados.</p>
+
+    <footer class="app-footer">
+        <div class="container mx-auto px-4 py-6">
+            <p class="text-center text-ink-300">
+                © 2026 Guia Injustice Mobile • Todos os direitos reservados •
+                <a href="#" class="text-ink-300 hover:text-glow">Termos de Uso</a> •
+                <a href="#" class="text-ink-300 hover:text-glow">Política de Privacidade</a>
+            </p>
+        </div>
     </footer>
 </body>
 </html>

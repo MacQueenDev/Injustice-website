@@ -3,117 +3,945 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personagens - Guia Injustice Mobile</title>
+    <title>Personagens - Injustice Mobile</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* ==================== PERSONAGENS ==================== */
+        .page-topbar {
+            background: rgba(10,10,12,0.9);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .topbar-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 0.5rem;
+            margin-left: auto;
+            flex-wrap: wrap;
+        }
+
+        .filter-chip {
+            padding: 6px 14px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-chip:hover,
+        .filter-chip.active {
+            background: rgba(255,71,87,0.15);
+            border-color: var(--accent-primary);
+            color: var(--text-main);
+        }
+
+        .collection-header {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 2rem 0;
+        }
+
+        .collection-tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+        }
+
+        .collection-tab {
+            padding: 0.9rem 1.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .collection-tab:hover { color: var(--text-main); }
+        .collection-tab.active {
+            color: var(--accent-primary);
+            border-bottom-color: var(--accent-primary);
+        }
+
+        /* Card grid */
+        .char-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .char-card {
+            position: relative;
+            border-radius: 0;
+            overflow: hidden;
+            cursor: pointer;
+            border: 3px solid #ffd60a;
+            background: var(--bg-panel);
+            transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+        }
+
+        .char-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.55);
+            border-color: #fff8c9;
+        }
+
+        .char-card.locked {
+            border-color: #3a4157;
+            filter: grayscale(0.85);
+            opacity: 0.55;
+        }
+
+        .char-card.locked:hover { filter: grayscale(0.3); opacity: 0.85; }
+
+        .char-portrait {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            display: block;
+            background: linear-gradient(160deg, #1c2233, #0d0f16);
+        }
+
+        .char-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 30%, transparent 55%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0.7rem;
+        }
+
+        .char-tier {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: var(--gold);
+            background: rgba(0,0,0,0.65);
+            padding: 2px 7px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .char-lvl {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #fff;
+            background: rgba(0,0,0,0.65);
+            padding: 2px 7px;
+            border-radius: 4px;
+        }
+
+        .char-name-overlay {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+
+        .char-stats {
+            display: flex;
+            gap: 0.6rem;
+            font-size: 0.72rem;
+            color: #c9c9c9;
+        }
+
+        .char-stats .dmg { color: #5aa9e6; }
+        .char-stats .hp { color: var(--accent-primary); }
+
+        .char-rank {
+            margin-top: 4px;
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        /* ==================== MODAL ==================== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(6px);
+            z-index: 200;
+            display: none;
+            overflow-y: auto;
+            padding: 2rem 1rem;
+        }
+
+        .modal-overlay.open { display: block; }
+
+        .modal {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.97); }
+            to { opacity: 1; transform: none; }
+        }
+
+        .modal-header {
+            position: relative;
+            padding: 2rem;
+            background: linear-gradient(135deg, #12151f 0%, #1a1f2e 100%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-portrait {
+            width: 180px;
+            border-radius: 10px;
+            border: 3px solid var(--gold);
+            display: block;
+        }
+
+        .modal-title-row {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .modal-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.4rem;
+        }
+
+        .modal-sub {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.8rem;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 2;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover { background: var(--accent-primary); border-color: var(--accent-primary); }
+
+        .modal-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.6rem; }
+
+        .modal-body {
+            padding: 2rem;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .m-section { margin-bottom: 2rem; }
+        .m-section:last-child { margin-bottom: 0; }
+
+        .m-section h3 {
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-primary);
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .m-section h4 {
+            font-size: 0.9rem;
+            color: var(--accent-secondary);
+            margin: 1rem 0 0.5rem;
+        }
+
+        .m-text { color: var(--text-muted); font-size: 0.95rem; }
+
+        .m-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .m-table th {
+            text-align: left;
+            padding: 8px 10px;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
+        }
+        .m-table td {
+            padding: 9px 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            vertical-align: top;
+        }
+        .m-table td:first-child { color: var(--text-main); font-weight: 600; }
+        .m-table tr:hover td { background: var(--glass); }
+
+        .m-abilities { display: grid; gap: 0.8rem; }
+
+        .m-ability {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent-secondary);
+            border-radius: 0 10px 10px 0;
+            padding: 0.9rem 1.1rem;
+        }
+
+        .m-ability-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.3rem;
+            gap: 0.75rem;
+        }
+
+        .m-ability-name { font-weight: 700; font-size: 1rem; }
+        .m-ability-class { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent-secondary); white-space: nowrap; }
+        .m-ability-desc { font-size: 0.88rem; color: var(--text-muted); }
+
+        .m-callout {
+            background: rgba(74,144,226,0.06);
+            border-left: 3px solid #4a90e2;
+            border-radius: 0 8px 8px 0;
+            padding: 0.9rem 1.1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.8rem;
+        }
+        .m-callout strong { color: var(--text-main); }
+
+        .m-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .m-col h4 { margin-top: 0; }
+
+        .m-col ul { list-style: none; }
+        .m-col li {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            padding: 0.4rem 0 0.4rem 1.1rem;
+            position: relative;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .m-col li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+        }
+        .m-col li strong { color: var(--text-main); }
+        .m-col.good li::before { color: var(--accent-secondary); }
+        .m-col.against li::before { color: #ffa502; }
+        .m-col.counter li::before { color: var(--accent-primary); }
+
+        .m-builds { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+        .m-build {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        .m-build h4 { margin: 0 0 0.6rem; }
+        .m-build-gear { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
+        .m-build-gear span {
+            font-size: 0.75rem;
+            padding: 3px 9px;
+            background: var(--border);
+            border-radius: 6px;
+            color: var(--text-main);
+        }
+        .m-build p { font-size: 0.85rem; color: var(--text-muted); }
+
+        .m-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.8rem; }
+        .m-stat {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.8rem;
+            text-align: center;
+        }
+        .m-stat-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .m-stat-value { font-size: 1.35rem; font-weight: 800; }
+
+        .m-unlock { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+        .m-unlock span {
+            font-size: 0.78rem;
+            padding: 4px 11px;
+            background: rgba(46,213,115,0.1);
+            border: 1px solid rgba(46,213,115,0.28);
+            border-radius: 14px;
+            color: var(--accent-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .m-two-col, .m-builds { grid-template-columns: 1fr; }
+            .modal-title-row { flex-direction: column; }
+            .modal-portrait { width: 130px; }
+            .char-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Personagens de Injustice: Gods Among Us Mobile</h1>
-        <p>Tudo sobre cada herói e vilão do jogo</p>
-    </header>
-    <nav>
-        <ul>
-            <li><a href="index.html">Início</a></li>
-            <li><a href="characters.html">Personagens</a></li>
-            <li><a href="combat.html">Combate</a></li>
-            <li><a href="progression.html">Progressão</a></li>
-            <li><a href="modes.html">Modos de Jogo</a></li>
-            <li><a href="tips.html">Dicas e Estratégias</a></li>
-            <li><a href="conclusion.html">Conclusão</a></li>
-        </ul>
-    </nav>
-    <main>
-        <section class="hero">
-            <h2>Guia Completo de Personagens</h2>
-            <p>Aqui está uma análise completa de todos os personagens jogáveis em Injustice: Gods Among Us Mobile, incluindo suas habilidades, estatísticas e melhores usos.</p>
+    <!-- Top bar -->
+    <div class="page-topbar">
+        <div class="topbar-inner">
+            <a href="index.html" class="back-btn">← Voltar</a>
+            <div class="filter-bar">
+                <button class="filter-chip active" data-filter="all">Todos</button>
+                <button class="filter-chip" data-filter="gold">Gold</button>
+                <button class="filter-chip" data-filter="bronze">Bronze</button>
+                <button class="filter-chip" data-filter="silver">Silver</button>
+                <button class="filter-chip" data-filter="drain">Drain</button>
+                <button class="filter-chip" data-filter="survivor">Survivor</button>
+            </div>
+        </div>
+    </div>
 
-            <h3>Todos os Personagens (21 no total)</h3>
+    <!-- Collection tabs -->
+    <div class="collection-header">
+        <div class="collection-tabs">
+            <a href="characters.html" class="collection-tab active">Personagens</a>
+            <a href="#" class="collection-tab">Upgrades</a>
+            <a href="#" class="collection-tab">Support Cards</a>
+            <a href="#" class="collection-tab">Gear Cards</a>
+        </div>
+    </div>
 
-            <h4>⚔️ Heróis</h4>
+    <!-- Character grid -->
+    <div class="char-grid" id="charGrid"></div>
 
-            <h5>Batman (Bruce Wayne)</h5>
-            <p><strong>Habilidades:</strong> Ataque rápido, defesa forte, movimento rápido, habilidade especial que concede temporary invencibilidade</p>
-            <p><strong>Estatísticas:</strong> Balanceado, boa defesa, excelente mobilidade</p>
-            <p><strong>Melhor uso:</strong> Mid-lane, controlador de posição, ótimo para combos</p>
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModal()">✕</button>
+                <div class="modal-title-row">
+                    <img src="dados/Aquamanprime.webp" alt="Aquaman" class="modal-portrait">
+                    <div>
+                        <div class="modal-title">Aquaman/Prime</div>
+                        <div class="modal-sub">Justice League · Prime · Challenge</div>
+                        <div class="modal-badges">
+                            <span class="badge gold">GOLD</span>
+                            <span class="badge prime">PRIME</span>
+                            <span class="badge league">JUSTICE LEAGUE</span>
+                            <span class="badge challenge">CHALLENGE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <h5>Superman</h5>
-            <p><strong>Habilidades:</strong> Dano alto, vantagem aérea, supersalto, ataque super forte</p>
-            <p><strong>Estatísticas:</strong> Dano bruto mais alto, velocidade média</p>
-            <p><strong>Melhor uso:</strong> Front-line, atacante principal</p>
+            <div class="modal-body">
+                <!-- Resumo -->
+                <div class="m-section">
+                    <h3>Resumo</h3>
+                    <p class="m-text">
+                        Aquaman Prime parece um personagem fraco no jogo. No entanto, quandoabortado pelo
+                        <strong>Tantu Totem</strong> e por várias gears de DOT, ele se torna um dos personagens
+                        mais quebrados já lançados, sendo normalmente hailed como o lutador definitivo no
+                        modo Survivor.
+                    </p>
+                    <div class="m-stats" style="margin-top:1rem">
+                        <div class="m-stat">
+                            <div class="m-stat-label">Raridade</div>
+                            <div class="m-stat-value" style="color:var(--gold)">Gold</div>
+                        </div>
+                        <div class="m-stat">
+                            <div class="m-stat-label">Preço</div>
+                            <div class="m-stat-value">220,000</div>
+                        </div>
+                        <div class="m-stat">
+                            <div class="m-stat-label">Dano Base</div>
+                            <div class="m-stat-value" style="color:#5aa9e6">950</div>
+                        </div>
+                        <div class="m-stat">
+                            <div class="m-stat-label">Dano Elite 10</div>
+                            <div class="m-stat-value" style="color:#5aa9e6">1,050</div>
+                        </div>
+                    </div>
+                </div>
 
-            <h5>Mulher-Maravilha</h5>
-            <p><strong>Habilidades:</strong> Ataque áreo, movimento rápido, defesa decente, habilidade de velocidade breve</p>
-            <p><strong>Estatísticas:</strong> Boa mobilidade, dano moderado</p>
-            <p><strong>Melhor uso:</strong> Ataque surpresa, perseguição, cobertura</p>
+                <!-- Desbloqueio -->
+                <div class="m-section">
+                    <h3>Desbloqueio</h3>
+                    <div class="m-unlock">
+                        <span>Challenge Mode</span>
+                        <span>Challenge Booster Pack</span>
+                        <span>Justice League Pack</span>
+                        <span>Special Challenge Booster Pack</span>
+                        <span>Phantom Zone (Veteran/Elite)</span>
+                        <span>Aquaman Celebration Pack</span>
+                        <span>Shazam Celebration Pack</span>
+                        <span>Joker Celebration Pack</span>
+                    </div>
+                    <p class="m-text" style="margin-top:0.8rem;font-size:0.85rem">
+                        Não é desbloqueado diretamente por promoções. Pode ser obtido aleatoriamente no
+                        Challenge Booster Pack e nos Special Challenge Booster Packs, ou como personagem
+                        garantido no Justice League Pack.
+                    </p>
+                </div>
 
-            <h5>Aquaman</h5>
-            <p><strong>Habilidades:</strong> Ataque de choque de água, projétil de água, movimento rápido debaixo d'água</p>
-            <p><strong>Estatísticas:</strong> Único nas batalhas aquáticas</p>
-            <p><strong>Melhor uso:</strong> Se posicionar perto da borda da arena</p>
+                <!-- Habilidades -->
+                <div class="m-section">
+                    <h3>Habilidades</h3>
+                    <div class="m-abilities">
+                        <div class="m-ability">
+                            <div class="m-ability-top">
+                                <span class="m-ability-name">Trident Toss</span>
+                                <span class="m-ability-class">Primeiro Especial</span>
+                            </div>
+                            <div class="m-ability-desc">Aquaman lança seu Tridente. Causa <strong>BLEED</strong>: dano ao longo do tempo que se acumula.</div>
+                        </div>
+                        <div class="m-ability">
+                            <div class="m-ability-top">
+                                <span class="m-ability-name">Atlantean Hero</span>
+                                <span class="m-ability-class">Segundo Especial</span>
+                            </div>
+                            <div class="m-ability-desc">Aquaman invoca um de seus melhores soldados de Atlantis paraMasters auxiliar na batalha. Não causa dano por si só — permite que Aquaman saia da briga momentaneamente.</div>
+                        </div>
+                        <div class="m-ability">
+                            <div class="m-ability-top">
+                                <span class="m-ability-name">Atlantean Rage</span>
+                                <span class="m-ability-class">Super Move</span>
+                            </div>
+                            <div class="m-ability-desc">Convoca o mais poderoso predador dos oceanos. <strong>Não pode ser bloqueado.</strong></div>
+                        </div>
+                    </div>
+                </div>
 
-            <h4>🦹 Vilões</h4>
+                <!-- Passivo -->
+                <div class="m-section">
+                    <h3>Passivo — Atlantean Hero</h3>
+                    <p class="m-text">Aquaman Prime introduz uma nova mecânica no jogo, permitindo invocar um lutador adicional para ajudar na batalha.</p>
 
-            <h5>Coringa</h5>
-            <p><strong>Habilidades:</strong> Ataque aleatório (crit multiplier), veneno, vantagem aérea</p>
-            <p><strong>Estatísticas:</strong> Dano imprevisível, baixo dano base</p>
-            <p><strong>Melhor uso:</strong> Jogador casual, sorteiro</p>
+                    <h4>Comportamento</h4>
+                    <ul style="list-style:none;margin-top:0.5rem">
+                        <li class="m-text" style="padding:0.3rem 0 0.3rem 1.1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent-secondary)">✓</span> O soldado não ganha poder nem usa ataques especiais.</li>
+                        <li class="m-text" style="padding:0.3rem 0 0.3rem 1.1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent-secondary)">✓</span> Aquaman não ganha poder enquanto o soldado está ativo.</li>
+                        <li class="m-text" style="padding:0.3rem 0 0.3rem 1.1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent-secondary)">✓</span> A invocação não causa dano por si só e funciona em Dead Zone.</li>
+                        <li class="m-text" style="padding:0.3rem 0 0.3rem 1.1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent-secondary)">✓</span> O soldado é invocado com vida cheia, independente da vida de Aquaman.</li>
+                        <li class="m-text" style="padding:0.3rem 0 0.3rem 1.1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent-secondary)">✓</span> É possível fazer tag out do soldado, mas ele sai da partida e precisa ser reinvocado com 2 barras de poder.</li>
+                        <li class="m-text" style="padding:0.3rem 0 0.3rem 1.1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent-secondary)">✓</span> Após a duração de um cooldown de tag-in, o cooldown entre Aquaman e seu herói cai para 0.</li>
+                    </ul>
 
-            <h5>Lex Luthor</h5>
-            <p><strong>Habilidades:</strong> Dano alto, suporte de intellett, projétil de laser</p>
-            <p><strong>Estatísticas:</strong> Bom dano, suporte</p>
-            <p><strong>Melhor uso:</strong> Combinação de damage + suporte</p>
+                    <h4>Estatísticas do Soldado (SP2 no máximo)</h4>
+                    <table class="m-table">
+                        <thead>
+                            <tr><th>Stat</th><th>Informado</th><th>Observado</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Dano</td><td>66% do dano de Aquaman</td><td>160% do dano de Aquaman</td></tr>
+                            <tr><td>Vida</td><td>33% do dano de Aquaman*</td><td>60% da vida de Aquaman</td></tr>
+                        </tbody>
+                    </table>
+                    <p class="m-text" style="font-size:0.8rem;margin-top:0.5rem">
+                        (*) A vida do soldado exibida no SP2 é calculada incorretamente como % do dano. Na batalha, usa a vida real de Aquaman.
+                    </p>
 
-            <h5>Arlequina</h5>
-            <p><strong>Habilidades:</strong> Ataque rápido, toxina, movimento rápido, vantagem aérea</p>
-            <p><strong>Estatísticas:</strong> Alta velocidade de ataque, dano moderado</p>
-            <p><strong>Melhor uso:</strong> Jogadora agressiva, atordoamento</p>
+                    <div class="m-callout">
+                        <strong>Nota:</strong> O soldado não é afetado por boosts de passivos dos companheiros (ex: Batman/Prime) nem usa efeitos de gear equipado em Aquaman. Mas gains de dano e vida em Aquaman aumentam os stats do soldado.
+                    </div>
+                </div>
 
-            <h4>⋆ Personagens de Cópia Limitada/Sazonal</h4>
+                <!-- Ataques básicos -->
+                <div class="m-section">
+                    <h3>Ataques Básicos</h3>
+                    <table class="m-table">
+                        <thead>
+                            <tr><th>Combo</th><th>Padrão de Dano (% do stat de dano)</th><th>Total (incl. Combo Ender)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Light (Combo Ender)</td>
+                                <td>2% - 2% - 2% - 2% - (3%)</td>
+                                <td>11%</td>
+                            </tr>
+                            <tr>
+                                <td>Heavy</td>
+                                <td>4% - 4% - 4%</td>
+                                <td>12%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="m-text" style="font-size:0.85rem;margin-top:0.6rem">
+                        Aquaman tem um combo leve único — 4 hits antes do Combo Ender, contra os 3 usuais.
+                    </p>
+                </div>
 
-            <p><strong>Rei-Sol</strong>, <strong>Cyborg</strong>, <strong>Flash</strong>, <strong>Arqueiro Verde</strong>, <strong>Ladrao de Lanternas</strong>, <strong>Pantera Negra</strong> e outros personagens especiais têm habilidades únicas e geralmente aparecem em eventos especiais ou são desbloqueados por tempo limitado.</p>
+                <!-- Gear -->
+                <div class="m-section">
+                    <h3>Estratégia de Gear</h3>
+                    <p class="m-text">
+                        Aquaman tem uma sinergia muito forte com o <strong>Tantu Totem</strong>, a ponto de ser
+                        praticamente obrigatório. Ativar o Atlantean Hero não causa dano, o que faz o poder
+                        Used ser devolvido.
+                    </p>
 
-            <h3>Tier List (Meta do Jogo Original)</h3>
+                    <h4>Builds Recomendadas</h4>
+                    <div class="m-builds">
+                        <div class="m-build">
+                            <h4>Build DOT Ofensivo</h4>
+                            <div class="m-build-gear">
+                                <span>Tantu Totem</span><span>The Master's Death Cart</span><span>The Ibistick</span>
+                            </div>
+                            <p>Extremamente poderosa opçăo de DOT. Imediatamente após invocar o Atlantean Hero, faҫa tag in de Aquaman novamente com 3 barras de poder e use Trident Toss. O Death Cart aplica o burn do Ibistick várias vezes, repetidamente e infinitamente, para dano de DOT extremamente forte — ao custo de não ter sustain algum e ser completamente countered por efeitos anti-DOT.</p>
+                        </div>
+                        <div class="m-build">
+                            <h4>Build Sustain + Drain</h4>
+                            <div class="m-build-gear">
+                                <span>Tantu Totem</span><span>Heart of Darkness</span><span>Quake Engine</span>
+                            </div>
+                            <p>O dano causado é bem menor, mas oferece dreno contínuo de poder e permanece altamente eficaz mesmo quando o Especial 1 está desabilitado. É uma das poucas maneiras de passar em partidas de Survivor Mode de altíssimo nível. O Quake Engine pode ser trocado pelo Cybernetic Exoskeleton para heal on SP2.</p>
+                        </div>
+                    </div>
 
-            <h4>S-Tier (Imbatíveis)</h4>
-            <ul>
-                <li><strong>Batman</strong> - Melhor defesa, excelente mobilidade, grande controle</li>
-                <li><strong>Superman</strong> - Maior dano, bom controle, presença dominante</li>
-            </ul>
+                    <h4>Gears que Funcionam Bem</h4>
+                    <ul style="list-style:none;margin-top:0.5rem">
+                        <li class="m-text" style="padding:0.3rem 0 0.3rem 1.1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent-secondary)">▸</span> <strong>LexCorp Gauntlets V2</strong>, <strong>Cloak of Destiny</strong> e <strong>Fourth World Godly Helmet</strong> — stun no tag-in permite um Trident Toss sem bloqueio.</li>
+                        <li class="m-text" style="padding:0.3rem 0 0.3rem 1.1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent-secondary)">▸</span> <strong>Claw of Horus</strong> — o dano de tag pode ser reaplicado repetidamente para staggerar o inimigo e interromper seus básicos.</li>
+                        <li class="m-text" style="padding:0.3rem 0 0.3rem 1.1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent-secondary)">▸</span> <strong>Heart of Darkness</strong> — o DOT aplica na ativação do especial, mesmo sem dano, então funciona nos dois especiais.</li>
+                    </ul>
 
-            <h4>A-Tier (Muito Fortes)</h4>
-            <ul>
-                <li><strong>Mulher-Maravilha</strong> - Excelente mobilidade, dano decente</li>
-                <li><strong>Arlequina</strong> - Alta velocidade de ataque, mobilidade, atordoamento</li>
-            </ul>
+                    <h4>Limitações</h4>
+                    <ul style="list-style:none;margin-top:0.5rem">
+                        <li class="m-text" style="padding:0.3rem 0 0.3rem 1.1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent-primary)">✕</span> A invocação não aplica DOT de gear (on-hit como The Ibistick ou after-special como Astro-Harness), exceto Heart of Darkness.</li>
+                        <li class="m-text" style="padding:0.3rem 0 0.3rem 1.1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent-primary)">✕</span> The Master's Death Cart não converte hits em dano de especial durante a invocação — o power steal do Quake Engine no SP2 não se aplica.</li>
+                        <li class="m-text" style="padding:0.3rem 0 0.3rem 1.1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent-primary)">✕</span> O gear próprio dele tem sinergia fraca: stun e dano no especial 2 não têm efeito, e o area effect do especial 1 é inefetivo (é um ataque de bleed e só metade do dano é multiplicado).</li>
+                    </ul>
+                </div>
 
-            <h4>B-Tier (Fortes)</h4>
-            <ul>
-                <li><strong>Aquaman</strong> - Único debaixo d'água, mas limitado</li>
-                <li><strong>Lex Luthor</strong> - Bom suporte + dano</li>
-            </ul>
+                <!-- Support Cards -->
+                <div class="m-section">
+                    <h3>Support Cards e Gear</h3>
+                    <table class="m-table">
+                        <thead>
+                            <tr><th>Item</th><th>Classificação</th><th>Descrição</th><th>Custo</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Throne of Atlantis</td><td>Health</td><td>10% HEALTH BOOST.</td><td>3,000</td></tr>
+                            <tr><td>Poseidon's Trident</td><td>Damage</td><td>10% DAMAGE BOOST.</td><td>4,000</td></tr>
+                            <tr><td>Armies of Atlantis</td><td>Energy</td><td>10% ENERGY REGENERATION.</td><td>5,000</td></tr>
+                            <tr><td>Atlantean Polearm (Trident of Poseidon)</td><td>Gear</td><td>8% - 18% boost de dano no Special 2</td><td>25,000 - 1,000,000</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="m-callout">
+                        <strong>Atlantean Polearm (evolved):</strong> 15% - 25% de chance de stun no Special 2, e area effect de 15% - 25% no Special 1 contra a equipe do oponente.
+                    </div>
+                </div>
 
-            <h4>C-Tier (Fracos)</h4>
-            <ul>
-                <li><strong>Coringa</strong> - Sorrateiro, mas inconsistente</li>
-            </ul>
+                <!-- Interações -->
+                <div class="m-section">
+                    <h3>Interações</h3>
+                    <p class="m-text" style="font-size:0.85rem;margin-bottom:1rem">
+                        Batalhas são altamente situacionais: esta seção só menciona cards com mecânicas
+                        particularmente efetivas ou inefetivas contra Aquaman. Um card "contra" Aquaman
+                        não significa que é sempre uma boa escolha.
+                    </p>
 
-            <h4>D-Tier (Raro/Especial)</h4>
-            <ul>
-                <li><strong>Personagens Temporais</strong> - Usar apenas quando disponíveis</li>
-            </ul>
+                    <div class="m-two-col">
+                        <div class="m-col good">
+                            <h4>✅ Bom Combinado Com</h4>
+                            <ul>
+                                <li><strong>Batman/Gaslight</strong> — o enxame de morcegos reaplica a cada tag in, impede o inimigo de acertar básicos.</li>
+                                <li><strong>Cyborg/Teen Titans</strong> — o passivo absorve golpes; o herói serve para segurar enquanto Cyborg se recupera.</li>
+                                <li><strong>Catwoman/Batman Returns</strong> — aumenta o dano de bleed do SP1.</li>
+                                <li><strong>Hawkgirl/Blackest Night</strong> — cura a cada soldado KO, tanto aliado quanto inimigo.</li>
+                                <li><strong>The Batman Who Laughs/Metal</strong> — o switching constante mantém invocando Savage Robins.</li>
+                                <li><strong>The Merciless/Metal</strong> — Aquaman ganha armadura no tag in.</li>
+                                <li><strong>Green Lantern/John Stewart</strong> — considera o herói um personagem separado, dando invulnerabilidade abaixo de 20% de vida.</li>
+                            </ul>
+                        </div>
 
-            <p><strong>Legenda das Colunas:</strong></p>
-            <ul>
-                <li><strong>Tier S:</strong> Imbatível na meta atual</li>
-                <li><strong>Tier A:</strong> Muito forte, sempre vou usar</li>
-                <li><strong>Tier B:</strong> Forte, bom para coleção</li>
-                <li><strong>Tier C:</strong> Inconsistente, talvez raramente usar</li>
-                <li><strong>Tier D:</strong> Especial, limitado a eventos</li>
-            </ul>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2026 Guia Injustice Mobile. Todos os direitos reservados.</p>
-    </footer>
+                        <div class="m-col against">
+                            <h4>🎯 Bom Contra</h4>
+                            <ul>
+                                <li><strong>Killer Frost/Prime</strong> — o herói não gera poder, imune ao dampening.</li>
+                                <li><strong>Raven/Prime</strong> — o herói absorve o Demonic Rage no lugar de Aquaman.</li>
+                                <li><strong>Lobo/Bounty Hunter</strong>, <strong>Hawkgirl/Prime</strong> — o herói pode ser usado mesmo snared.</li>
+                                <li><strong>Superman/Dawn of Justice</strong> — Shattering Blow não tem efeito no herói.</li>
+                                <li><strong>Batman/Dawn of Justice</strong>, <strong>Flash/Wally West Rebirth</strong> — a retaliação erra o herói.</li>
+                                <li><strong>Superman/Injustice 2</strong> — o passivo é desperdiçado bloqueando só o primeiro hit do DOT.</li>
+                                <li><strong>Batgirl/Arkham Knight</strong> — os DOTs não triggeram o resgate.</li>
+                                <li><strong>Reverse Flash</strong> — o SP2 consome todo o passivo se ele estiver sofrendo DOT.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="m-two-col" style="margin-top:1rem">
+                        <div class="m-col counter">
+                            <h4>❌ Countered By</h4>
+                            <ul>
+                                <li><strong>Doomsday/Prime</strong>, <strong>Superman/Blackest Night</strong>, <strong>Deathstroke/Prime</strong>, <strong>Deathstroke/Insurgency</strong>, <strong>Doomsday/Regime</strong> — o passivo de KO inimigo ativa quando o herói é derrubado.</li>
+                                <li><strong>Killer Frost/Prime</strong> — o dampening dificulta a invocação, a menos que tenha Tantu Totem.</li>
+                                <li><strong>Aquaman/Injustice 2</strong> — pode escarrar os DOTs de volta, dobrados e com efeitos secundários.</li>
+                                <li><strong>Flash/Blackest Night</strong> — cura e ganha poder com DOT.</li>
+                                <li><strong>Batman/Gaslight</strong>, <strong>Black Adam/New 52</strong>, <strong>Harley Quinn/Arkham Knight</strong>, <strong>Sinestro</strong> — invocação e tag in contam para efeitos de tag inimigo.</li>
+                                <li><strong>Sinestro/Green Lantern</strong> — ganha boost de dano de especial quando Aquaman ou o soldado entram.</li>
+                                <li><strong>Hal Jordan/Yellow Lantern</strong> — rouba o poder de Aquaman quando o soldado é invocado.</li>
+                            </ul>
+                        </div>
+
+                        <div class="m-col">
+                            <h4>⚠️ Cuidado com</h4>
+                            <ul>
+                                <li><strong>Area Effect</strong> — se o Atlantean Hero estiver ativo, o Area Effect atinge a equipe do próprio Aquaman, incluindo ele mesmo.</li>
+                                <li><strong>Nekron's Scythe</strong> — não permite ressurreição se o herói causar o KO.</li>
+                                <li><strong>Enchantress Companion Card EVOLVED</strong> — não ativa ao invocar.</li>
+                                <li><strong>Zod/Prime</strong> — a cura e o boost de dano não contam para o soldado (usavam contar).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trivia -->
+                <div class="m-section">
+                    <h3>Curiosidades</h3>
+                    <ul style="list-style:none;margin-top:0.5rem">
+                        <li class="m-text" style="padding:0.35rem 0 0.35rem 1.2rem;position:relative"><span style="position:absolute;left:0;color:var(--accent-primary)">▸</span> Com SP2 no máximo, o soldado atinge 1520/630 — mais dano que qualquer personagem Gold (1500 é o máximo).</li>
+                        <li class="m-text" style="padding:0.35rem 0 0.35rem 1.2rem;position:relative"><span style="position:absolute;left:0;color:var(--accent-primary)">▸</span> O soldado tem o mesmo padrão de ataque básico de Aquaman.</li>
+                        <li class="m-text" style="padding:0.35rem 0 0.35rem 1.2rem;position:relative"><span style="position:absolute;left:0;color:var(--accent-primary)">▸</span> Nenhum equipamento de gear de Aquaman tem efeito no soldado — ele não pode ser usado como "meat shield" setups padrão.</li>
+                        <li class="m-text" style="padding:0.35rem 0 0.35rem 1.2rem;position:relative"><span style="position:absolute;left:0;color:var(--accent-primary)">▸</span> O spamming de Trident Toss acumula bleed sobre si mesmo, causando mais dano a cada ativação.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Characters data
+        const characters = [
+            {
+                id: 'aquaman-prime',
+                name: 'Aquaman/Prime',
+                img: 'dados/Aquamanprime.webp',
+                tier: 'VII',
+                level: 50,
+                damage: 950,
+                health: 1050,
+                rank: 'Max Elite',
+                rarity: 'gold',
+                tags: ['gold', 'drain', 'survivor'],
+                implemented: true
+            },
+            {
+                id: 'placeholder-1',
+                name: 'Batman/Gaslight',
+                img: null,
+                tier: 'VII', level: 50, damage: 958, health: 1144, rank: 'Max Elite',
+                rarity: 'gold', tags: ['gold'], implemented: false
+            },
+            {
+                id: 'placeholder-2',
+                name: 'Catwoman/Arkham Knight',
+                img: null,
+                tier: 'VII', level: 50, damage: 504, health: 773, rank: 'Max Elite',
+                rarity: 'gold', tags: ['gold'], implemented: false
+            },
+            {
+                id: 'placeholder-3',
+                name: 'The Joker/Arkham Origins',
+                img: null,
+                tier: 'VII', level: 50, damage: 465, health: 618, rank: 'Max Elite',
+                rarity: 'gold', tags: ['gold'], implemented: false
+            },
+            {
+                id: 'placeholder-4',
+                name: 'Deadshot/Arkham Knight',
+                img: null,
+                tier: 'VII', level: 50, damage: 430, health: 1385, rank: 'Max Elite',
+                rarity: 'gold', tags: ['gold'], implemented: false
+            },
+            {
+                id: 'placeholder-5',
+                name: 'Raven',
+                img: null,
+                tier: 'VII', level: 50, damage: 415, health: 753, rank: 'Max Elite',
+                rarity: 'gold', tags: ['gold'], implemented: false
+            },
+            {
+                id: 'placeholder-6',
+                name: 'Batman/Arkham Origins',
+                img: null,
+                tier: 'VII', level: 50, damage: 395, health: 630, rank: 'Max Elite',
+                rarity: 'gold', tags: ['gold'], implemented: false
+            },
+            {
+                id: 'placeholder-7',
+                name: 'Reverse Flash',
+                img: null,
+                tier: 'VII', level: 50, damage: 390, health: 773, rank: 'Max Elite',
+                rarity: 'gold', tags: ['gold', 'drain'], implemented: false
+            },
+            {
+                id: 'placeholder-8',
+                name: 'Bane',
+                img: null,
+                tier: 'VII', level: 50, damage: 549, health: 80, rank: 'Max Elite',
+                rarity: 'gold', tags: ['gold'], implemented: false
+            },
+            {
+                id: 'placeholder-9',
+                name: 'Scorpion',
+                img: null,
+                tier: 'VII', level: 50, damage: 460, health: 700, rank: 'Max Elite',
+                rarity: 'gold', tags: ['gold'], implemented: false
+            },
+            {
+                id: 'placeholder-10',
+                name: 'Batman/Beyond',
+                img: null,
+                tier: 'VII', level: 50, damage: 448, health: 756, rank: 'Max Elite',
+                rarity: 'gold', tags: ['gold'], implemented: false
+            },
+            {
+                id: 'placeholder-11',
+                name: 'Bane/Arkham Origins',
+                img: null,
+                tier: 'VII', level: 50, damage: 438, health: 800, rank: 'Max Elite',
+                rarity: 'gold', tags: ['gold'], implemented: false
+            },
+            {
+                id: 'placeholder-12',
+                name: 'Static/Prime',
+                img: null,
+                tier: 'VII', level: 50, damage: 418, health: 754, rank: 'Max Elite',
+                rarity: 'gold', tags: ['gold', 'survivor'], implemented: false
+            },
+            {
+                id: 'placeholder-13',
+                name: 'Martian Manhunter/Blackest Night',
+                img: null,
+                tier: 'VII', level: 50, damage: 398, health: 640, rank: 'Max Elite',
+                rarity: 'gold', tags: ['gold'], implemented: false
+            },
+            {
+                id: 'placeholder-14',
+                name: 'Superman/Gotham',
+                img: null,
+                tier: 'VII', level: 50, damage: 398, health: 843, rank: 'Max Elite',
+                rarity: 'gold', tags: ['gold'], implemented: false
+            }
+        ];
+
+        const PLACEHOLDER_ICON = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="150" height="200"><rect width="150" height="200" fill="#161a24"/>' +
+            '<circle cx="75" cy="85" r="34" fill="#242b3d"/>' +
+            '<path d="M75 51 a34 34 0 0 1 24 58 l-8 -8 a22 22 0 0 0 -32 0 l-8 8 a34 34 0 0 1 24 -58z" fill="#2f3850"/>' +
+            '<text x="75" y="165" font-size="13" fill="#5a6480" text-anchor="middle" font-family="sans-serif">em breve</text></svg>'
+        );
+
+        function renderGrid(filter = 'all') {
+            const grid = document.getElementById('charGrid');
+            const list = characters.filter(c => filter === 'all' || c.tags.includes(filter));
+
+            grid.innerHTML = list.map(c => `
+                <div class="char-card ${c.rarity}" onclick="openModal('${c.id}')">
+                    <span class="char-tier">${c.tier}</span>
+                    <span class="char-lvl">${c.level}</span>
+                    <img src="${c.img || PLACEHOLDER_ICON}" alt="${c.name}" class="char-portrait" onerror="this.src='${PLACEHOLDER_ICON}'">
+                    <div class="char-overlay">
+                        <div class="char-name-overlay">${c.name}</div>
+                        <div class="char-stats">
+                            <span class="dmg">🛡 ${c.damage}</span>
+                            <span class="hp">♥ ${c.health}</span>
+                        </div>
+                        <div class="char-rank">${c.rank}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openModal(id) {
+            const c = characters.find(x => x.id === id);
+            if (!c) return;
+            if (!c.implemented) {
+                alert(`"${c.name}"\n\nEsta página ainda está em construção.\nEm breve: habilidades, interações, builds e estatísticas completas extraídas da wiki.`);
+                return;
+            }
+            document.getElementById('modal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                renderGrid(chip.dataset.filter);
+            });
+        });
+
+        renderGrid();
+    </script>
 </body>
 </html>
