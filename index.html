@@ -3,156 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Injustice Mobile - Guia Oficial</title>
+    <title>Injustice Mobile Max Guide</title>
     <link href="assets/css/tailwind.css" rel="stylesheet">
-    <link href="assets/css/tailwind.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('dados/assets/fotoindex.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .overlay {
+            background: rgba(10, 12, 18, 0.85);
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 4px;
+        }
+        .hero-section {
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            text-shadow: 0 0 28px rgba(225, 29, 72, 0.55);
+            margin-bottom: 1rem;
+            color: #eae7f0;
+        }
+        .hero-text {
+            font-size: 1.25rem;
+            color: #9aa3b8;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+        .menu-card {
+            background: linear-gradient(180deg, rgba(20,24,34,0.85), rgba(10,12,18,0.95));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            box-shadow: 0 12px 32px -12px rgba(0,0,0,0.6);
+            transition: all 0.3s ease;
+            padding: 1.25rem;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 24px 64px -12px rgba(0,0,0,0.75);
+        }
+        .menu-card .card-icon {
+            font-size: 2.25rem;
+            margin-bottom: 1rem;
+        }
+        .menu-card .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #eae7f0;
+            margin-bottom: 0.5rem;
+        }
+        .menu-card .card-count.page-text-soft {
+            font-size: 0.95rem;
+            color: #9aa3b8;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        @media (min-width: 768px) {
+            .menu-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (min-width: 1024px) {
+            .menu-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+    </style>
 </head>
-<body class="bg-gradient-to-r from-ink-950 to-ink-990 text-ink-100">
+<body class="bg-ink-950 text-white min-h-screen">
     <header class="app-header">
-        <div class="container mx-auto px-4 py-6">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center">
-                    <div class="logo">
-                        <div class="logo-icon">INJUSTICE</div>
-                        <div class="logo-text">MOBILE</div>
-                    </div>
-                </div>
-                <div class="user-info">
-                    <div class="stat">
-                        <span class="stat-icon">💎</span>
-                        <div class="stat-value">0</div>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-icon">🔴</span>
-                        <div class="stat-value">0</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-icon">🪙</div>
-                        <div class="stat-value">588,233</div>
-                    </div>
+        <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+            <div class="flex items-center">
+                <!-- <img src="dados/assets/foto-logo2.png" alt="Injustice Mobile" style="max-height: 70px; width: auto;"> -->
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="container mx-auto px-4 py-6">
-        <h1 class="text-3xl font-bold text-center mb-4 text-glow">Injustice Mobile</h1>
-        <p class="text-center text-base text-ink-300 mb-8">
-            Explore o mundo de Injustice Mobile com nosso guia completo. Acesse todas as seções para descobrir personagens, gears, recompensas e modos de jogo.
-        </p>
+    <main class="container mx-auto px-4 py-6 flex flex-col items-center">
+        <div class="overlay w-full py-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-center mb-4 hero-title">Injustice Mobile Max Guide</h1>
+            <p class="text-center text-base md:text-lg hero-text max-w-2xl mx-auto mb-12">
+                Explore o mundo de Injustice Mobile com nosso guia completo. Acesse todas as seções para descobrir personagens, gears, recompensas e modos de jogo.
+            </p>
 
-        <div class="menu-grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            <!-- Characters -->
-            <a href="characters.html" class="menu-card hover:shadow-xl transition-all duration-500">
-                <div class="card-bg">
-                    <img src="assets/img/characters/placeholder.jpg" alt="Personagens" class="card-img">
-                    <div class="card-content">
-                        <h3 class="text-xl font-bold">Personagens</h3>
-                        <p class="text-sm text-ink-300">Todos os heróis e vilões jogáveis</span>
-                    </div>
+            <div class="w-full max-w-4xl">
+                <a href="characters.html" class="menu-card hover:shadow-2xl transition-all duration-500">
+                    <div class="card-icon">👤</div>
+                    <h2 class="text-3xl md:text-4xl font-bold hero-title">Personagens</h2>
+                    <p class="card-count page-text-soft">Todos os heróis e vilões jogáveis</p>
                 </a>
-
-                <!-- Gears -->
-                <a href="#" class="menu-card">
-                    <div class="card-front">
-                        <div class="card-icon">⚔️</div>
-                        <h3 class="text-xl font-bold">Gears</h3>
-                        <span class="card-count">Equipamentos e poderes</span>
-                    </div>
-                </a>
-
-                <!-- Multiplayer -->
-                <a href="#" class="menu-card">
-                    <div class="card-front">
-                        <div class="card-icon">🌐</div>
-                        <h3 class="text-xl font-bold">Multiplayer</h3>
-                        <span class="card-count">Recompensas e ranking</span>
-                    </div>
-                </a>
-
-                <!-- Phantom Zone -->
-                <a href="#" class="menu-card">
-                    <div class="card-front">
-                        <div class="card-icon">🌀</div>
-                        <h3 class="text-xl font-bold">Phantom Zone</h3>
-                        <span class="card-count">Desafios e recompensas</span>
-                    </div>
-                </a>
-
-                <!-- Seasonal -->
-                <a href="#" class="menu-card">
-                    <div class="card-front">
-                        <div class="card-icon">📅</div>
-                        <h3 class="text-xl font-bold">Sazonal</h3>
-                        <span class="card-count">Eventos e conteúdos temporários</span>
-                    </div>
-                </a>
-
-                <!-- Survivor -->
-                <a href="#" class="menu-card">
-                    <div class="card-front">
-                        <div class="card-icon">💀</div>
-                        <h3 class="text-xl font-bold">Survivor</h3>
-                        <span class="card-count">Modo desafiador</span>
-                    </div>
-                </a>
-
-                <!-- Play -->
-                <a href="#" class="menu-card">
-                    <div class="card-front">
-                        <div class="card-icon">▶️</div>
-                        <h3 class="text-xl font-bold">Jogar</h3>
-                        <span class="card-count">Inicie sua jornada</span>
-                    </div>
-                </a>
-
-                <!-- Collection -->
-                <a href="#" class="menu-card">
-                    <div class="card-front">
-                        <div class="card-icon">📋</div>
-                        <h3 class="text-xl font-bold">Coleção</h3>
-                        <span class="card-count">Colecione todos os personagens</span>
-                    </div>
-                </a>
-
-                <!-- Store -->
-                <a href="#" class="menu-card">
-                    <div class="card-front">
-                        <div class="card-icon">🛒</div>
-                        <h3 class="text-xl font-bold">Store</h3>
-                        <span class="card-count">Compre e desbloqueie</span>
-                    </div>
-                </a>
-            </div>
-        </div>
-
-        <div class="hero-section mt-12">
-            <div class="container mx-auto">
-                <div class="hero-content">
-                    <div class="hero-image">
-                        <img src="assets/img/characters/aquaman-prime.webp" alt="Aquaman" class="w-full max-w-3xl mx-auto rounded-xl shadow-xl">
-                    </div>
-                    <div class="hero-text">
-                        <h2 class="text-4xl font-extrabold text-center text-glow mb-6">Injustice Mobile</h2>
-                        <p class="text-2xl text-center text-ink-300 mb-8">
-                            Coleção épica de personagens, gears poderosos e eventos sazonais.
-                        </p>
-                        <div class="hero-actions">
-                            <button class="btn-primary">Começar Jogo</button>
-                            <button class="btn-ghost ml-4">Assistir Trailer</button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </main>
 
     <footer class="app-footer">
         <div class="container mx-auto px-4 py-6">
-            <p class="text-center text-ink-300">
+            <p class="text-center page-text-soft">
                 © 2026 Guia Injustice Mobile • Todos os direitos reservados •
-                <a href="#" class="text-ink-300 hover:text-glow">Termos de Uso</a> •
-                <a href="#" class="text-ink-300 hover:text-glow">Política de Privacidade</a>
+                <a href="#" class="page-text-soft hover:text-glow">Termos de Uso</a> •
+                <a href="#" class="page-text-soft hover:text-glow">Política de Privacidade</a>
             </p>
         </div>
     </footer>

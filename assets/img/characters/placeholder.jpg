@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placeholder</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #161a24;
+        }
+        .placeholder {
+            width: 150px;
+            height: 200px;
+            background: linear-gradient(160deg, #1c2233, #0d0f16);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #5a6480;
+            font-family: sans-serif;
+        }
+        .placeholder img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #242b3d;
+        }
+        .placeholder p {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="placeholder">
+        <img src="https://via.placeholder.com/150x200?text=Personagem" alt="Personagem">
+        <p>Personagens em breve · Mais variants e cartas sendo adicionadas</p>
+    </div>
+</body>
+</html>
