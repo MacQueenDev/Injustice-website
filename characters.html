@@ -6,24 +6,22 @@
     <title>Personagens - Injustice Mobile</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* ==================== PERSONAGENS ==================== */
+        /* ==================== PERSONAGENS (Tailwind + custom) ==================== */
         .page-topbar {
             background: rgba(10,10,12,0.9);
             border-bottom: 1px solid var(--border);
-            padding: 1rem 2rem;
             position: sticky;
             top: 0;
             z-index: 100;
         }
-
         .topbar-inner {
             max-width: 1400px;
             margin: 0 auto;
             display: flex;
             align-items: center;
             gap: 1rem;
+            padding: 1rem 2rem;
         }
-
         .back-btn {
             display: inline-flex;
             align-items: center;
@@ -37,43 +35,37 @@
             font-size: 0.9rem;
             transition: all 0.2s;
         }
-
         .back-btn:hover {
             border-color: var(--accent-primary);
             color: var(--accent-primary);
         }
-
         .filter-bar {
             display: flex;
             gap: 0.5rem;
             margin-left: auto;
             flex-wrap: wrap;
         }
-
         .filter-chip {
             padding: 6px 14px;
             background: var(--glass);
             border: 1px solid var(--border);
-            border-radius: 20px;
+            border-radius: 9999px;
             color: var(--text-muted);
             font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.2s;
         }
-
         .filter-chip:hover,
         .filter-chip.active {
             background: rgba(255,71,87,0.15);
             border-color: var(--accent-primary);
             color: var(--text-main);
         }
-
         .collection-header {
             max-width: 1400px;
             margin: 0 auto;
             padding: 2rem 2rem 0;
         }
-
         .collection-tabs {
             display: flex;
             gap: 0;
@@ -81,7 +73,6 @@
             margin-bottom: 1.5rem;
             overflow-x: auto;
         }
-
         .collection-tab {
             padding: 0.9rem 1.5rem;
             color: var(--text-muted);
@@ -95,46 +86,73 @@
             white-space: nowrap;
             transition: all 0.2s;
         }
-
         .collection-tab:hover { color: var(--text-main); }
         .collection-tab.active {
             color: var(--accent-primary);
             border-bottom-color: var(--accent-primary);
         }
 
-        /* Card grid */
+        /* Card grid — Tailwind-friendly */
         .char-grid {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 2rem 3rem;
+            padding: 0 2rem 4rem;
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
+            gap: 1.5rem;
+        }
+        .char-grid-placeholder {
+            max-width: 1400px;
+            margin: 0 auto 4rem;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 260px;
+            border-radius: 16px;
+            border: 2px dashed var(--border);
+            background: rgba(255,255,255,0.03);
+            text-align: center;
+        }
+        .char-grid-placeholder img {
+            max-height: 140px;
+            width: auto;
+            opacity: 0.55;
+            filter: grayscale(0.6);
+        }
+        .char-grid-placeholder p {
+            margin-top: 1rem;
+            color: var(--text-muted);
+            font-size: 1rem;
         }
 
         .char-card {
             position: relative;
-            border-radius: 0;
+            border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
-            border: 3px solid #ffd60a;
+            border: 2px solid rgba(255,255,255,0.06);
             background: var(--bg-panel);
-            transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+            transition: transform 0.35s cubic-bezier(0.23,1,0.32,1),
+                        box-shadow 0.35s cubic-bezier(0.23,1,0.32,1),
+                        border-color 0.35s cubic-bezier(0.23,1,0.32,1);
         }
-
         .char-card:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: 0 12px 28px rgba(0,0,0,0.55);
-            border-color: #fff8c9;
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 24px 48px -12px rgba(0,0,0,0.75);
+            border-color: rgba(255,255,255,0.35);
         }
-
         .char-card.locked {
-            border-color: #3a4157;
-            filter: grayscale(0.85);
-            opacity: 0.55;
+            border-color: rgba(58,65,87,0.55);
+            filter: grayscale(0.85) brightness(0.75);
+            opacity: 0.6;
         }
-
-        .char-card.locked:hover { filter: grayscale(0.3); opacity: 0.85; }
+        .char-card.locked:hover {
+            filter: grayscale(0.45) brightness(0.85);
+            opacity: 0.85;
+        }
+        .char-card.rarity-gold { border-color: rgba(245,196,81,0.35); }
+        .char-card.rarity-gold:hover { border-color: var(--gold-light); box-shadow: 0 0 0 1px rgba(245,196,81,0.55), 0 24px 48px -12px rgba(0,0,0,0.75); }
 
         .char-portrait {
             width: 100%;
@@ -143,60 +161,62 @@
             display: block;
             background: linear-gradient(160deg, #1c2233, #0d0f16);
         }
+        .char-portrait-placeholder {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            display: block;
+            background: radial-gradient(circle at 50% 50%, #252b3d 0%, #07080c 100%);
+        }
 
         .char-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 30%, transparent 55%);
+            background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.45) 35%, transparent 60%);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            padding: 0.7rem;
+            padding: 0.85rem;
         }
-
         .char-tier {
             position: absolute;
-            top: 6px;
-            left: 6px;
+            top: 8px;
+            left: 8px;
             font-size: 0.7rem;
             font-weight: 800;
             color: var(--gold);
-            background: rgba(0,0,0,0.65);
-            padding: 2px 7px;
+            background: rgba(0,0,0,0.7);
+            padding: 2px 8px;
             border-radius: 4px;
             letter-spacing: 0.5px;
         }
-
         .char-lvl {
             position: absolute;
-            top: 6px;
-            right: 6px;
+            top: 8px;
+            right: 8px;
             font-size: 0.75rem;
             font-weight: 700;
             color: #fff;
-            background: rgba(0,0,0,0.65);
-            padding: 2px 7px;
+            background: rgba(0,0,0,0.7);
+            padding: 2px 8px;
             border-radius: 4px;
         }
-
         .char-name-overlay {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 700;
             color: #fff;
             line-height: 1.2;
             margin-bottom: 4px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.7);
         }
-
         .char-stats {
             display: flex;
             gap: 0.6rem;
             font-size: 0.72rem;
             color: #c9c9c9;
         }
-
         .char-stats .dmg { color: #5aa9e6; }
         .char-stats .hp { color: var(--accent-primary); }
-
         .char-rank {
             margin-top: 4px;
             font-size: 0.65rem;
@@ -209,16 +229,14 @@
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(6px);
+            background: rgba(2,3,6,0.88);
+            backdrop-filter: blur(10px);
             z-index: 200;
             display: none;
             overflow-y: auto;
             padding: 2rem 1rem;
         }
-
         .modal-overlay.open { display: block; }
-
         .modal {
             max-width: 1000px;
             margin: 0 auto;
@@ -226,34 +244,25 @@
             border: 1px solid var(--border);
             border-radius: 16px;
             overflow: hidden;
-            animation: modalIn 0.3s ease;
         }
-
-        @keyframes modalIn {
-            from { opacity: 0; transform: translateY(30px) scale(0.97); }
-            to { opacity: 1; transform: none; }
-        }
-
         .modal-header {
             position: relative;
             padding: 2rem;
             background: linear-gradient(135deg, #12151f 0%, #1a1f2e 100%);
             border-bottom: 1px solid var(--border);
         }
-
         .modal-portrait {
             width: 180px;
             border-radius: 10px;
             border: 3px solid var(--gold);
             display: block;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.6);
         }
-
         .modal-title-row {
             display: flex;
             gap: 1.5rem;
             align-items: flex-start;
         }
-
         .modal-title {
             font-size: 2.2rem;
             font-weight: 900;
@@ -261,7 +270,6 @@
             letter-spacing: -0.5px;
             margin-bottom: 0.4rem;
         }
-
         .modal-sub {
             color: var(--text-muted);
             font-size: 0.9rem;
@@ -269,7 +277,6 @@
             letter-spacing: 1px;
             margin-bottom: 0.8rem;
         }
-
         .modal-close {
             position: absolute;
             top: 1rem;
@@ -285,20 +292,15 @@
             z-index: 2;
             transition: all 0.2s;
         }
-
         .modal-close:hover { background: var(--accent-primary); border-color: var(--accent-primary); }
-
         .modal-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.6rem; }
-
         .modal-body {
             padding: 2rem;
-            max-height: 70vh;
+            max-height: 80vh;
             overflow-y: auto;
         }
-
         .m-section { margin-bottom: 2rem; }
         .m-section:last-child { margin-bottom: 0; }
-
         .m-section h3 {
             font-size: 1.05rem;
             text-transform: uppercase;
@@ -308,15 +310,12 @@
             padding-bottom: 0.4rem;
             border-bottom: 1px solid var(--border);
         }
-
         .m-section h4 {
             font-size: 0.9rem;
             color: var(--accent-secondary);
             margin: 1rem 0 0.5rem;
         }
-
         .m-text { color: var(--text-muted); font-size: 0.95rem; }
-
         .m-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
         .m-table th {
             text-align: left;
@@ -335,9 +334,7 @@
         }
         .m-table td:first-child { color: var(--text-main); font-weight: 600; }
         .m-table tr:hover td { background: var(--glass); }
-
         .m-abilities { display: grid; gap: 0.8rem; }
-
         .m-ability {
             background: var(--glass);
             border: 1px solid var(--border);
@@ -345,7 +342,6 @@
             border-radius: 0 10px 10px 0;
             padding: 0.9rem 1.1rem;
         }
-
         .m-ability-top {
             display: flex;
             justify-content: space-between;
@@ -353,11 +349,9 @@
             margin-bottom: 0.3rem;
             gap: 0.75rem;
         }
-
         .m-ability-name { font-weight: 700; font-size: 1rem; }
         .m-ability-class { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent-secondary); white-space: nowrap; }
         .m-ability-desc { font-size: 0.88rem; color: var(--text-muted); }
-
         .m-callout {
             background: rgba(74,144,226,0.06);
             border-left: 3px solid #4a90e2;
@@ -368,10 +362,8 @@
             margin-top: 0.8rem;
         }
         .m-callout strong { color: var(--text-main); }
-
         .m-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
         .m-col h4 { margin-top: 0; }
-
         .m-col ul { list-style: none; }
         .m-col li {
             font-size: 0.88rem;
@@ -390,16 +382,13 @@
         .m-col.good li::before { color: var(--accent-secondary); }
         .m-col.against li::before { color: #ffa502; }
         .m-col.counter li::before { color: var(--accent-primary); }
-
         .m-builds { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-
         .m-build {
             background: var(--glass);
             border: 1px solid var(--border);
             border-radius: 10px;
             padding: 1rem;
         }
-
         .m-build h4 { margin: 0 0 0.6rem; }
         .m-build-gear { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
         .m-build-gear span {
@@ -410,7 +399,6 @@
             color: var(--text-main);
         }
         .m-build p { font-size: 0.85rem; color: var(--text-muted); }
-
         .m-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.8rem; }
         .m-stat {
             background: var(--glass);
@@ -421,7 +409,6 @@
         }
         .m-stat-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
         .m-stat-value { font-size: 1.35rem; font-weight: 800; }
-
         .m-unlock { display: flex; flex-wrap: wrap; gap: 0.4rem; }
         .m-unlock span {
             font-size: 0.78rem;
@@ -431,12 +418,35 @@
             border-radius: 14px;
             color: var(--accent-secondary);
         }
-
         @media (max-width: 768px) {
             .m-two-col, .m-builds { grid-template-columns: 1fr; }
             .modal-title-row { flex-direction: column; }
             .modal-portrait { width: 130px; }
-            .char-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+            .char-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1rem; }
+        }
+
+        /* Animations */
+        .animate-fade-up {
+            animation: fade-up 0.6s cubic-bezier(0.23,1,0.32,1) both;
+        }
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .delay-1  { animation-delay: 80ms;  }
+        .delay-2  { animation-delay: 140ms; }
+        .delay-3  { animation-delay: 200ms; }
+        .delay-4  { animation-delay: 260ms; }
+        .delay-5  { animation-delay: 320ms; }
+        .delay-6  { animation-delay: 380ms; }
+
+        /* Modal enter animation */
+        .modal-enter {
+            animation: modalEnter 0.4s cubic-bezier(0.23,1,0.32,1) both;
+        }
+        @keyframes modalEnter {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
         }
     </style>
 </head>
@@ -468,6 +478,14 @@
 
     <!-- Character grid -->
     <div class="char-grid" id="charGrid"></div>
+
+    <!-- Placeholder section: "Characters" tab image -->
+    <div class="char-grid-placeholder">
+        <div>
+            <img src="assets/img/characters/characters-tab.webp" alt="Characters">
+            <p>Personagens em breve · Mais variants e cartas sendo adicionadas</p>
+        </div>
+    </div>
 
     <!-- Modal -->
     <div class="modal-overlay" id="modal">
@@ -771,7 +789,7 @@
             {
                 id: 'aquaman-prime',
                 name: 'Aquaman/Prime',
-                img: 'dados/Aquamanprime.webp',
+                img: 'assets/img/characters/aquaman-prime.webp',
                 tier: 'VII',
                 level: 50,
                 damage: 950,
@@ -779,105 +797,50 @@
                 rank: 'Max Elite',
                 rarity: 'gold',
                 tags: ['gold', 'drain', 'survivor'],
+                desc: 'Aquaman Prime parece um personagem fraco no jogo. No entanto, quando apoiado pelo Tantu Totem e por várias gears de DOT, ele se torna um dos personagens mais quebrados já lançados, sendo normalmente hailed como o lutador definitivo no modo Survivor.',
                 implemented: true
             },
             {
-                id: 'placeholder-1',
-                name: 'Batman/Gaslight',
-                img: null,
-                tier: 'VII', level: 50, damage: 958, health: 1144, rank: 'Max Elite',
-                rarity: 'gold', tags: ['gold'], implemented: false
+                id: 'aquaman-flashpoint',
+                name: 'Aquaman/Flashpoint',
+                img: 'assets/img/characters/aquaman-flashpoint.webp',
+                tier: 'VII',
+                level: 50,
+                damage: 950,
+                health: 1050,
+                rank: 'Max Elite',
+                rarity: 'gold',
+                tags: ['gold'],
+                desc: 'Variante baseada no evento Flashpoint. Especialista em drain de poder e dano sobre o tempo (DOT), com alta sinergia em equipes de Justice League e Flashpoint.',
+                implemented: true
             },
             {
-                id: 'placeholder-2',
-                name: 'Catwoman/Arkham Knight',
-                img: null,
-                tier: 'VII', level: 50, damage: 504, health: 773, rank: 'Max Elite',
-                rarity: 'gold', tags: ['gold'], implemented: false
+                id: 'aquaman-injustice2',
+                name: 'Aquaman/Injustice 2',
+                img: 'assets/img/characters/aquaman-injustice2.webp',
+                tier: 'VII',
+                level: 50,
+                damage: 950,
+                health: 1050,
+                rank: 'Max Elite',
+                rarity: 'gold',
+                tags: ['gold'],
+                desc: 'Variante inspirada em Injustice 2. Guerreiro atlante focado em dano físico bruto e sobrevivência, ideal para modos de longa duração.',
+                implemented: true
             },
             {
-                id: 'placeholder-3',
-                name: 'The Joker/Arkham Origins',
-                img: null,
-                tier: 'VII', level: 50, damage: 465, health: 618, rank: 'Max Elite',
-                rarity: 'gold', tags: ['gold'], implemented: false
-            },
-            {
-                id: 'placeholder-4',
-                name: 'Deadshot/Arkham Knight',
-                img: null,
-                tier: 'VII', level: 50, damage: 430, health: 1385, rank: 'Max Elite',
-                rarity: 'gold', tags: ['gold'], implemented: false
-            },
-            {
-                id: 'placeholder-5',
-                name: 'Raven',
-                img: null,
-                tier: 'VII', level: 50, damage: 415, health: 753, rank: 'Max Elite',
-                rarity: 'gold', tags: ['gold'], implemented: false
-            },
-            {
-                id: 'placeholder-6',
-                name: 'Batman/Arkham Origins',
-                img: null,
-                tier: 'VII', level: 50, damage: 395, health: 630, rank: 'Max Elite',
-                rarity: 'gold', tags: ['gold'], implemented: false
-            },
-            {
-                id: 'placeholder-7',
-                name: 'Reverse Flash',
-                img: null,
-                tier: 'VII', level: 50, damage: 390, health: 773, rank: 'Max Elite',
-                rarity: 'gold', tags: ['gold', 'drain'], implemented: false
-            },
-            {
-                id: 'placeholder-8',
-                name: 'Bane',
-                img: null,
-                tier: 'VII', level: 50, damage: 549, health: 80, rank: 'Max Elite',
-                rarity: 'gold', tags: ['gold'], implemented: false
-            },
-            {
-                id: 'placeholder-9',
-                name: 'Scorpion',
-                img: null,
-                tier: 'VII', level: 50, damage: 460, health: 700, rank: 'Max Elite',
-                rarity: 'gold', tags: ['gold'], implemented: false
-            },
-            {
-                id: 'placeholder-10',
-                name: 'Batman/Beyond',
-                img: null,
-                tier: 'VII', level: 50, damage: 448, health: 756, rank: 'Max Elite',
-                rarity: 'gold', tags: ['gold'], implemented: false
-            },
-            {
-                id: 'placeholder-11',
-                name: 'Bane/Arkham Origins',
-                img: null,
-                tier: 'VII', level: 50, damage: 438, health: 800, rank: 'Max Elite',
-                rarity: 'gold', tags: ['gold'], implemented: false
-            },
-            {
-                id: 'placeholder-12',
-                name: 'Static/Prime',
-                img: null,
-                tier: 'VII', level: 50, damage: 418, health: 754, rank: 'Max Elite',
-                rarity: 'gold', tags: ['gold', 'survivor'], implemented: false
-            },
-            {
-                id: 'placeholder-13',
-                name: 'Martian Manhunter/Blackest Night',
-                img: null,
-                tier: 'VII', level: 50, damage: 398, health: 640, rank: 'Max Elite',
-                rarity: 'gold', tags: ['gold'], implemented: false
-            },
-            {
-                id: 'placeholder-14',
-                name: 'Superman/Gotham',
-                img: null,
-                tier: 'VII', level: 50, damage: 398, health: 843, rank: 'Max Elite',
-                rarity: 'gold', tags: ['gold'], implemented: false
+                id: 'aquaman-regime',
+                name: 'Aquaman/Regime',
+                img: 'assets/img/characters/aquaman-regime.webp',
+                tier: 'VII',
+                level: 50,
+                damage: 950,
+                health: 1050,
+                rank: 'Max Elite',
+                rarity: 'gold',
+                tags: ['gold'],
+                desc: 'Variante do Regime de Superman. Focado em controle de campo e dano de área, com forte presença em confrontos de equipe.',
+                implemented: true
             }
         ];
 
@@ -892,11 +855,11 @@
             const grid = document.getElementById('charGrid');
             const list = characters.filter(c => filter === 'all' || c.tags.includes(filter));
 
-            grid.innerHTML = list.map(c => `
-                <div class="char-card ${c.rarity}" onclick="openModal('${c.id}')">
+            grid.innerHTML = list.map((c, i) => `
+                <div class="char-card ${c.rarity} animate-fade-up delay-${(i%5)+1}" onclick="openModal('${c.id}')">
                     <span class="char-tier">${c.tier}</span>
                     <span class="char-lvl">${c.level}</span>
-                    <img src="${c.img || PLACEHOLDER_ICON}" alt="${c.name}" class="char-portrait" onerror="this.src='${PLACEHOLDER_ICON}'">
+                    <img src="${c.img}" alt="${c.name}" class="char-portrait" onerror="this.classList.remove('char-portrait');this.classList.add('char-portrait-placeholder')">
                     <div class="char-overlay">
                         <div class="char-name-overlay">${c.name}</div>
                         <div class="char-stats">
@@ -909,6 +872,75 @@
             `).join('');
         }
 
+        function buildModalContent(c) {
+            // Badge classes
+            const tierBadge = c.rarity === 'gold' ? '<span class="badge gold">GOLD</span>' : '';
+            // Tags em badges
+            const tagBadges = c.tags.map(t => {
+                const label = t.charAt(0).toUpperCase() + t.slice(1);
+                return `<span class="badge" style="background:rgba(70,211,150,0.15);border-color:rgba(70,211,150,0.35);color:var(--accent-secondary)">${label}</span>`;
+            }).join('');
+
+            const stats = `
+                <div class="m-stat"><div class="m-stat-label">Raridade</div><div class="m-stat-value" style="color:var(--gold)">${c.rarity.charAt(0).toUpperCase()+c.rarity.slice(1)}</div></div>
+                <div class="m-stat"><div class="m-stat-label">Tier</div><div class="m-stat-value">${c.tier}</div></div>
+                <div class="m-stat"><div class="m-stat-label">Dano Base</div><div class="m-stat-value" style="color:#5aa9e6">${c.damage.toLocaleString()}</div></div>
+                <div class="m-stat"><div class="m-stat-label">Vida Base</div><div class="m-stat-value" style="color:var(--accent-primary)">${c.health.toLocaleString()}</div></div>
+            `;
+
+            const descHtml = c.desc ? `<p class="m-text">${c.desc}</p>` : '<p class="m-text">Descrição em desenvolvimento.</p>';
+
+            // Variant-specific sections (placeholder for now, can expand per variant)
+            const extra = modalExtras[c.id] || '';
+
+            return `
+                <div class="modal-title-row">
+                    <img src="${c.img}" alt="${c.name}" class="modal-portrait">
+                    <div>
+                        <div class="modal-title">${c.name}</div>
+                        <div class="modal-sub">${c.tier} · Level ${c.level} · ${c.rank}</div>
+                        <div class="modal-badges">${tierBadge}${tagBadges}</div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="m-section">
+                        <h3>Resumo</h3>
+                        ${descHtml}
+                        <div class="m-stats" style="margin-top:1rem">${stats}</div>
+                    </div>
+                    ${extra}
+                    <div class="m-section">
+                        <h3>Em Desenvolvimento</h3>
+                        <p class="m-text">Habilidades detalhadas, passivo, builds de gear, interações e estatísticas completas estão sendo extraídas da wiki.</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Variant-specific extra content (expand as wiki data is parsed)
+        const modalExtras = {
+            'aquaman-prime': `
+                <div class="m-section"><h3>Habilidades</h3>
+                    <div class="m-abilities">
+                        <div class="m-ability"><div class="m-ability-top"><span class="m-ability-name">Trident Toss</span><span class="m-ability-class">Primeiro Especial</span></div><div class="m-ability-desc">Aquaman lança seu Tridente. Causa <strong>BLEED</strong>: dano ao longo do tempo que se acumula.</div></div>
+                        <div class="m-ability"><div class="m-ability-top"><span class="m-ability-name">Atlantean Hero</span><span class="m-ability-class">Segundo Especial</span></div><div class="m-ability-desc">Invoca um soldado de Atlantis para auxiliar na batalha. Aquaman sai momentaneamente da briga.</div></div>
+                        <div class="m-ability"><div class="m-ability-top"><span class="m-ability-name">Atlantean Rage</span><span class="m-ability-class">Super Move</span></div><div class="m-ability-desc">Convoca o mais poderoso predador dos oceanos. <strong>Não pode ser bloqueado.</strong></div></div>
+                    </div>
+                </div>
+                <div class="m-section"><h3>Passivo — Atlantean Hero</h3>
+                    <p class="m-text">Permite invocar um lutador adicional. O soldado tem 160% do dano e 60% da vida de Aquaman (no máximo).</p>
+                </div>
+                <div class="m-section"><h3>Builds Recomendadas</h3>
+                    <div class="m-builds">
+                        <div class="m-build"><h4>Build DOT Ofensivo</h4><div class="m-build-gear"><span>Tantu Totem</span><span>The Master's Death Cart</span><span>The Ibistick</span></div><p>Extremamente poderosa opção de DOT. O Death Cart aplica o burn do Ibistick repetidamente.</p></div>
+                        <div class="m-build"><h4>Build Sustain + Drain</h4><div class="m-build-gear"><span>Tantu Totem</span><span>Heart of Darkness</span><span>Quake Engine</span></div><p>Menor dano, mas dreno contínuo de poder. Eficaz em Survivor de alto nível.</p></div>
+                    </div></div>
+            `,
+            'aquaman-flashpoint': '',
+            'aquaman-injustice2': '',
+            'aquaman-regime': ''
+        };
+
         function openModal(id) {
             const c = characters.find(x => x.id === id);
             if (!c) return;
@@ -916,7 +948,16 @@
                 alert(`"${c.name}"\n\nEsta página ainda está em construção.\nEm breve: habilidades, interações, builds e estatísticas completas extraídas da wiki.`);
                 return;
             }
-            document.getElementById('modal').classList.add('open');
+            const modalEl = document.getElementById('modal');
+            const modalInner = modalEl.querySelector('.modal');
+            modalInner.innerHTML = `
+                <div class="modal-header">
+                    <button class="modal-close" onclick="closeModal()">✕</button>
+                    ${buildModalContent(c)}
+                </div>
+            `;
+            modalEl.classList.add('open');
+            modalInner.classList.add('modal-enter');
             document.body.style.overflow = 'hidden';
         }
 
